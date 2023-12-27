@@ -1,6 +1,5 @@
 package com.API.blog.services.impl;
 
-import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,7 @@ import com.API.blog.payloads.UserDto;
 import com.API.blog.repositories.UserRepo;
 import com.API.blog.services.UserService;
 
-import jakarta.websocket.server.ServerEndpoint;
+
 
 @Service
 public class UserSeriveImpl implements UserService {
@@ -32,8 +31,6 @@ public class UserSeriveImpl implements UserService {
 	public UserDto updateUser(UserDto userDto, Integer userId) {
 		
 		User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User","id",userId));
-	
-
 		user.setName(userDto.getName());
 		user.setPassword(userDto.getPassword());
 		user.setAbout(userDto.getAbout());
