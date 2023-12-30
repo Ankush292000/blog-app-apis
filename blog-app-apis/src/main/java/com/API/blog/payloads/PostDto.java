@@ -24,4 +24,6 @@ public class PostDto {
 	
 	private UserDto user;
 	
+	private String imageName;
+	
 }
