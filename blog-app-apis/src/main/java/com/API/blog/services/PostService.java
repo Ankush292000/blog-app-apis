@@ -1,5 +1,6 @@
 package com.API.blog.services;
 
+import java.io.InputStream;
 import java.util.List;
 
 import com.API.blog.entities.Post;
@@ -39,5 +40,6 @@ public interface PostService {
 	//search posts
 	
 	List<PostDto> searchPosts (String keyword);
+	
 
 }
