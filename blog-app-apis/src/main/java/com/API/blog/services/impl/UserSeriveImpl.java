@@ -5,11 +5,15 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.API.blog.config.AppConstants;
+import com.API.blog.entities.Role;
 import com.API.blog.entities.User;
 import com.API.blog.exceptions.ResourceNotFoundException;
 import com.API.blog.payloads.UserDto;
+import com.API.blog.repositories.RoleRepo;
 import com.API.blog.repositories.UserRepo;
 import com.API.blog.services.UserService;
 
@@ -24,6 +28,10 @@ public class UserSeriveImpl implements UserService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private RoleRepo roleRepo;
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user =this.dtoToUser(userDto);
@@ -81,6 +89,30 @@ public class UserSeriveImpl implements UserService {
 		 * userDto.setName(user.getName()); userDto.setPassword(user.getPassword());
 		 */
 		return userDto;		
+	}
+
+	@Override
+	public UserDto registerNewUser(UserDto user) {
+		User users = this.modelMapper.map(user, User.class);
+		//encode password
+		
+		users.setPassword(this.passwordEncoder.encode(user.getPassword()));
+		Role role =null;
+		try {
+			String Admin = users.getUserType();
+			if(Admin.equalsIgnoreCase("Admin")) {
+				role =this.roleRepo.findById(AppConstants.NORMAL_ADMIN).get();
+			}else {
+				role =this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+			}
+		}catch (NullPointerException e) {
+			// TODO: handle exception
+			role =this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+		}
+		users.getRoles().add(role);
+		User newuser = this.userRepo.save(users);
+		
+		return this.modelMapper.map(newuser, UserDto.class);
 	}
 
 }
