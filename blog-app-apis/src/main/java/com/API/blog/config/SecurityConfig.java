@@ -16,12 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.API.blog.security.JwtAuthenticationEntryPoint;
 import com.API.blog.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 
 public class SecurityConfig {
 	
@@ -47,6 +49,7 @@ public class SecurityConfig {
 	    	auth.requestMatchers("/home/**").
 	    	authenticated().requestMatchers("/auth/**").permitAll().
 	    	requestMatchers("/api/users/").permitAll().
+	    	requestMatchers("/v2/api-docs/", "/v3/api-docs/","/swagger-ui/", "/swagger-resources/", "/swagger.ui.html").permitAll().
 	    	requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 	    	.requestMatchers(HttpMethod.GET).permitAll()
 	    	.anyRequest().authenticated())
@@ -56,5 +59,6 @@ public class SecurityConfig {
 			return http.build();
 	    	
 	    }
+	    
 	    boolean prePostEnabled() { return true;};
 }

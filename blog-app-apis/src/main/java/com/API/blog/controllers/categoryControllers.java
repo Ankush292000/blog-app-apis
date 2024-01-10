@@ -18,11 +18,13 @@ import com.API.blog.payloads.ApiResponse;
 import com.API.blog.payloads.CategoryDto;
 import com.API.blog.services.CategoryService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 
 @RestController
 @RequestMapping("/api/categories")
+
 public class categoryControllers {
 	
 	@Autowired
