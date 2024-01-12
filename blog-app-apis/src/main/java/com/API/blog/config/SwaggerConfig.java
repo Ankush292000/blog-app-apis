@@ -22,7 +22,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 						url = "9552795235"
 						
 						) ,
-				description = "this APi for blogging ",
+				description = "This  are rest APIs in spring boot. In this we can perfrom multiple oprations like create user add post (add update delete get all get single) etc for blogging "
+						+"\n"+ " 1st you have to create user the create token using it and then add  it in authentication  ",
 				title = "Blogging APIs",
 				version = "1.0",
 				
