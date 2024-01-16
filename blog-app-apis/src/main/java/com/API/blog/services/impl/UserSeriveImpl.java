@@ -44,9 +44,23 @@ public class UserSeriveImpl implements UserService {
 		
 		User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User","id",userId));
 		user.setName(userDto.getName());
-		user.setPassword(userDto.getPassword());
+		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 		user.setAbout(userDto.getAbout());
 		user.setEmail(userDto.getEmail());
+		user.setUserType(userDto.getUserType());
+		Role role =null;
+		try {
+			String Admin = userDto.getUserType();
+			if(Admin.equalsIgnoreCase("Admin")) {
+				role =this.roleRepo.findById(AppConstants.NORMAL_ADMIN).get();
+			}else {
+				role =this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+			}
+		}catch (NullPointerException e) {
+			// TODO: handle exception
+			role =this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+		}
+		user.getRoles().add(role);
 		User updatedUser = this.userRepo.save(user);
 		UserDto userSto1= this.userToDto(updatedUser);
 		return userSto1;

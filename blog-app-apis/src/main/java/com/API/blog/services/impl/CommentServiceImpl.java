@@ -12,6 +12,7 @@ import com.API.blog.exceptions.ResourceNotFoundException;
 import com.API.blog.payloads.CommentDto;
 import com.API.blog.repositories.CommenctRepo;
 import com.API.blog.repositories.PostRepo;
+import com.API.blog.security.JwtAuthenticationFilter;
 import com.API.blog.services.CommentService;
 
 @Service
@@ -23,12 +24,17 @@ public class CommentServiceImpl implements CommentService {
 	private CommenctRepo commentRepo;
 	@Autowired
 	private ModelMapper modelMapper;
+	@Autowired
+	private JwtAuthenticationFilter jwtRequest;
 	@Override
 	public CommentDto createCommect(CommentDto commentDto, Integer postId) {
 		Post post = this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException ("Post","post id" ,postId));
 		Comment comment = this.modelMapper.map(commentDto,Comment.class);
+		
 		comment.setPost(post);
+		comment.setUserName(jwtRequest.username);
 		Comment save = this.commentRepo.save(comment);
+		
 		return this.modelMapper.map(save, CommentDto.class);
 	}
 

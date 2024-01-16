@@ -60,7 +60,7 @@ public class UserController {
 	public ResponseEntity<ApiResponse> deleteUser (@PathVariable Integer userId) {
 		UserDto gettingUser = this.userService.getUserByID(userId);
 		if (gettingUser.getEmail().equals(jwtRequest.getUsername())) {
-			return new ResponseEntity<ApiResponse>(new ApiResponse("Can not delete existing user" , false) , HttpStatus.OK);
+			return new ResponseEntity<ApiResponse>(new ApiResponse("Can not delete Current user" , false) , HttpStatus.OK);
 		}
 		
 		

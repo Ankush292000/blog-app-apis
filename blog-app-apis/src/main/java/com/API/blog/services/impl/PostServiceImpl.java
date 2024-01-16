@@ -21,6 +21,7 @@ import com.API.blog.payloads.PostResponse;
 import com.API.blog.repositories.CategoryRepo;
 import com.API.blog.repositories.PostRepo;
 import com.API.blog.repositories.UserRepo;
+import com.API.blog.security.JwtAuthenticationFilter;
 import com.API.blog.services.PostService;
 
 @Service
@@ -37,11 +38,15 @@ public class PostServiceImpl implements PostService{
 	
 	@Autowired
 	private CategoryRepo categoryRepo;
+	@Autowired
+	private JwtAuthenticationFilter jwtRequest;
+	
 	
 	
 	@Override
-	public PostDto createPost(PostDto postDto,Integer userId , Integer categoryId) {
-		User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "User id", userId));
+	public PostDto createPost(PostDto postDto , Integer categoryId) {
+		User user=this.userRepo.findByEmail(jwtRequest.username).orElseThrow(() -> new ResourceNotFoundException("User", "User Email", 0));
+		//User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "User id", userId));
 		Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "category id", categoryId));
 		Post post  = this.modelMapper.map(postDto, Post.class);
 		post.setImageName("default.png");

@@ -1,5 +1,6 @@
 package com.API.blog.payloads;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CategoryDto {
-	
+	@Schema(hidden = true)
 	private Integer categoryId;
 	
 	@NotEmpty

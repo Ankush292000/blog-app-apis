@@ -45,14 +45,14 @@ public class PostController {
 	@Value("${project.image")
 	private String path;
 	// create 
-	@PostMapping("/userId/{userId}/category/{categoryId}/posts")
+	@PostMapping("/category/{categoryId}/posts")
 	public ResponseEntity<PostDto> createPost (
 			@RequestBody PostDto postDto,
-			@PathVariable Integer userId,
+			
 			@PathVariable Integer categoryId
 			){
 		
-		PostDto createPost = this.postService.createPost(postDto, userId, categoryId);
+		PostDto createPost = this.postService.createPost(postDto, categoryId);
 				return new ResponseEntity<PostDto>(createPost, HttpStatus.CREATED);
 		
 	}

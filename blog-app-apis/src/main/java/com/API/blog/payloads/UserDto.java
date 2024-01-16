@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.API.blog.entities.Role;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,11 +19,12 @@ import lombok.Setter;
 @Setter
 
 public class UserDto {
-	
+	@Schema(hidden = true)
 	private int id;
 	
 	@NotEmpty
 	@Size(min =4 ,message = "username must be 4 characters")
+	
 	private String name;
 	
 	@Email
@@ -35,6 +37,6 @@ public class UserDto {
 	private String about;
 	
 	private String userType;
-	
+	@Schema(hidden = true)
 	private Set<RoleDto> roles = new HashSet<>();
 }

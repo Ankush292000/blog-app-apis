@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.API.blog.entities.Comment;
 import com.API.blog.payloads.ApiResponse;
 import com.API.blog.payloads.CommentDto;
+import com.API.blog.security.JwtAuthenticationFilter;
 import com.API.blog.services.CommentService;
 
 @RestController
@@ -20,7 +21,7 @@ import com.API.blog.services.CommentService;
 public class CommentController {
 	@Autowired
 	private CommentService commentService;
-	
+
 	@PostMapping("/post/{postId}/comment")
 	public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto comment ,
 			@PathVariable Integer postId

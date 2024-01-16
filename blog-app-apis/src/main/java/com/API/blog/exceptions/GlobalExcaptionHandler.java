@@ -1,5 +1,6 @@
 package com.API.blog.exceptions;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +38,12 @@ public class GlobalExcaptionHandler {
 		String message =  ex.getMessage() + "(Tip -: check url)";
 		ApiResponse apiResponse = new ApiResponse(message , false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);				
+	}
+	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+	public ResponseEntity<ApiResponse> SQLIntegrityConstraintViolationExceptionExceptionHandler( SQLIntegrityConstraintViolationException ex){
+		String message =  ex.getMessage() + "(Tip -: check url)";
+		ApiResponse apiResponse = new ApiResponse(message , false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);				
 	}
 	}
 
