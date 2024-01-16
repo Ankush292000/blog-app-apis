@@ -4,11 +4,14 @@ import java.lang.module.ResolutionException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.API.blog.entities.Comment;
 import com.API.blog.entities.Post;
 import com.API.blog.exceptions.ResourceNotFoundException;
+import com.API.blog.payloads.ApiResponse;
 import com.API.blog.payloads.CommentDto;
 import com.API.blog.repositories.CommenctRepo;
 import com.API.blog.repositories.PostRepo;
@@ -42,6 +45,17 @@ public class CommentServiceImpl implements CommentService {
 	public void deleteCommect(Integer commentId) {
 		Comment com = this.commentRepo.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "CommentId", commentId));
 		this.commentRepo.delete(com);
+	}
+
+	@Override
+	public CommentDto UpdateCommect(CommentDto commentDto ,Integer commentId) {
+		Comment com = this.commentRepo.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "CommentId", commentId));	
+		if(!(jwtRequest.username).equals(com.getUserName())){
+			return commentDto;
+		}
+		com.setContent(commentDto.getContent());
+		Comment save =this.commentRepo.save(com);
+		return this.modelMapper.map(save, CommentDto.class);
 	}
 
 	

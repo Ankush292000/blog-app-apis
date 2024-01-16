@@ -7,4 +7,6 @@ public interface CommentService {
 	CommentDto createCommect(CommentDto commentDto , Integer postId);
 	
 	void deleteCommect(Integer commentId);
+	
+	CommentDto UpdateCommect(CommentDto commentDto ,Integer commentId);
 }
