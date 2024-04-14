@@ -9,19 +9,21 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.API.blog.exceptions.ErrorResponseDto;
 import com.API.blog.payloads.UserDto;
 import com.API.blog.security.JwtHelper;
 import com.API.blog.services.UserService;
 import com.API.blog.utilts.JWTRequest;
 import com.API.blog.utilts.JWTResponse;
 
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -68,9 +70,12 @@ public class AuthController {
 	    }
 
 	    @ExceptionHandler(BadCredentialsException.class)
-	    public String exceptionHandler() {
-	        return "Credentials Invalid !!";
+	    public ResponseEntity<ErrorResponseDto> exceptionHandler() {
+	        ErrorResponseDto errorResponse = new ErrorResponseDto("Credentials Invalid !!");
+	        return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 	    }
+
+
 	    
 	    
 	    // register new user API

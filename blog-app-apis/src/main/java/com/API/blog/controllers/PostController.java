@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ import com.API.blog.services.FileService;
 import com.API.blog.services.PostService;
 
 import jakarta.servlet.http.HttpServletResponse;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/")
 public class PostController {
